@@ -58,6 +58,12 @@ class AuthController extends Controller
     }
 
 
+    public function signout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        return new PostAuthResource(200, 'Sukses, anda telah logout dari sistem.');
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -11,3 +11,4 @@ Route::get('/user', function (Request $request) {
 // AUTH
 Route::post('/user/signup', [AuthController::class, 'signup'])->middleware('guest');
 Route::post('/user/signin', [AuthController::class, 'signin'])->middleware('guest')->name('login');
+Route::post('/user/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum')->name('login');
