@@ -4,11 +4,11 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 // AUTH
 Route::post('/user/signup', [AuthController::class, 'signup'])->middleware('guest');
 Route::post('/user/signin', [AuthController::class, 'signin'])->middleware('guest')->name('login');
-Route::post('/user/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum')->name('login');
+Route::post('/user/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum');
+Route::get('/user/me', [AuthController::class, 'user'])->middleware('auth:sanctum');
+
+//

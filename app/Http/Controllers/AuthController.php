@@ -64,6 +64,12 @@ class AuthController extends Controller
         return new PostAuthResource(200, 'Sukses, anda telah logout dari sistem.');
     }
 
+
+    public function user(Request $request)
+    {
+        return new PostAuthResource(200, 'Sukses, ini adalah akun anda.', $request->user());
+    }
+
     /**
      * Display a listing of the resource.
      */
