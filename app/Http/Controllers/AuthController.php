@@ -17,7 +17,7 @@ class AuthController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'username' => 'required|string|max:30|exists:users,username',
+                'username' => 'required|string|max:30|exists:user,username',
                 'password' => 'required|min:8|string',
             ]);
 
@@ -39,14 +39,18 @@ class AuthController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'username' => 'required|string|max:30|unique:users,username',
-                'fullname' => 'required|string|max:150',
-                'email' => 'required|email:rfc,dns|string|unique:users,email',
+                'username' => 'required|string|max:30|unique:user,username',
+                'firstname' => 'required|string|max:150',
+                'lastname' => 'required|string|max:150',
+                'email' => 'required|email:rfc,dns|string|unique:user,email',
                 'password' => 'required|min:8|string',
                 'password2' => 'required|min:8|string|same:password',
             ]);
+            $validatedData['id_role'] = 1;
+            $validatedData['image'] = 'default.png';
             $validatedData['uuid'] = fake()->uuid();
             $validatedData['password'] = Hash::make($validatedData['password']);
+            // dd($validatedData);
             DB::transaction(function () use ($validatedData, &$user) {
                 $user = User::create($validatedData);
             });
@@ -105,11 +109,11 @@ class AuthController extends Controller
             ];
 
             if ($request->email !== $user->email) {
-                $rules['email'] = 'required|email:rfc,dns|string|unique:users,email';
+                $rules['email'] = 'required|email:rfc,dns|string|unique:user,email';
             }
 
             if ($request->username !== $user->username) {
-                $rules['username'] = 'required|string|max:30|unique:users,username';
+                $rules['username'] = 'required|string|max:30|unique:user,username';
             }
 
 
@@ -125,7 +129,7 @@ class AuthController extends Controller
                 if (password_verify($validatedData['password'], $user->password)) {
                     $validatedData['password'] = Hash::make($validatedData['password']);
                     unset($validatedData['password2']);
-                } else {    
+                } else {
                     return new PostAuthResource(200, 'Gagal! Password salah');
                 }
             }
