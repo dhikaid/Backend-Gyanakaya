@@ -93,9 +93,52 @@ class AuthController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $user = User::firstWhere('uuid', $request->user()->uuid);
+            // VALIDATE
+            $rules = [
+                'username' => 'required|string|max:30',
+                'fullname' => 'required|string|max:150',
+                'email' => 'required|email:rfc,dns|string',
+            ];
+
+            if ($request->email !== $user->email) {
+                $rules['email'] = 'required|email:rfc,dns|string|unique:users,email';
+            }
+
+            if ($request->username !== $user->username) {
+                $rules['username'] = 'required|string|max:30|unique:users,username';
+            }
+
+
+            if ($request->password) {
+                $rules['prev_password'] = 'required|min:8|string';
+                $rules['password'] = 'required|min:8|string';
+                $rules['password2'] = 'required|min:8|string|same:password';
+            }
+
+            $validatedData = $request->validate($rules);
+
+            if ($request->password) {
+                if (password_verify($validatedData['password'], $user->password)) {
+                    $validatedData['password'] = Hash::make($validatedData['password']);
+                    unset($validatedData['password2']);
+                } else {    
+                    return new PostAuthResource(200, 'Gagal! Password salah');
+                }
+            }
+
+            DB::transaction(function () use ($validatedData, &$user, $request) {
+                User::where('uuid', $request->user()->uuid)->update($validatedData);
+                $user =  User::firstWhere('uuid', $request->user()->uuid);
+            });
+
+            return new PostAuthResource(200, 'Sukses, profile telah diupdate.', $user);
+        } catch (ValidationException $e) {
+            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+        }
     }
 
     /**
