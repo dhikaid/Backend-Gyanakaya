@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,5 +27,10 @@ class Materi extends Model
     public function modul(): HasMany
     {
         return $this->hasMany(Modul::class, 'id_materi', 'id');
+    }
+
+    public function scopeSearch(Builder $query, string $search): void
+    {
+        $query->where('materi', 'like', '%' . $search . '%');
     }
 }

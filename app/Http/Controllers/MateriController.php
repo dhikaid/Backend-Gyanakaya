@@ -26,10 +26,10 @@ class MateriController extends Controller
                 'query' => 'string|required'
             ]);
 
-            $materi = Materi::where('materi', $validatedData['query']);
+            $materi = Materi::search($validatedData['query'])->get();
 
-            dd($materi);
-            return new PostAuthResource(200, 'Sukses mengambil data', $validatedData);
+            // dd($materi);
+            return new PostAuthResource(200, 'Sukses mengambil data', $materi);
         } catch (ValidationException $e) {
             new PostAuthResource(200, 'Terjadi kesalahan', $e->errors());
         }
