@@ -33,4 +33,9 @@ class Materi extends Model
     {
         $query->where('materi', 'like', '%' . $search . '%');
     }
+
+    public function getCoverAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
 }

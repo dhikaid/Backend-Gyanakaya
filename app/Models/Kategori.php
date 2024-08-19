@@ -17,4 +17,9 @@ class Kategori extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function getCoverAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
 }

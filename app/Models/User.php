@@ -52,4 +52,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
 }
