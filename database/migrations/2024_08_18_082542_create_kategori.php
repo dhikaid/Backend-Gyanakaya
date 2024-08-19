@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('kategori', function (Blueprint $table) {
             $table->id();
             $table->uuid();
+            $table->string('cover');
             $table->string('kategori');
             $table->timestamps();
         });

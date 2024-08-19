@@ -47,7 +47,7 @@ class AuthController extends Controller
                 'password2' => 'required|min:8|string|same:password',
             ]);
             $validatedData['id_role'] = 1;
-            $validatedData['image'] = 'default.png';
+            $validatedData['image'] = 'avatar/' . fake()->image(storage_path('app/public/avatar'), 300, 300, null, false, false, strtoupper(substr($validatedData['username'], 0, 1)), true, 'png');
             $validatedData['uuid'] = fake()->uuid();
             $validatedData['password'] = Hash::make($validatedData['password']);
             // dd($validatedData);

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('modul', function (Blueprint $table) {
             $table->id();
             $table->uuid();
+            $table->string('cover');
             $table->string('modul');
             $table->foreignId('id_materi')->references('id')->on('materi');
             $table->text('detail');

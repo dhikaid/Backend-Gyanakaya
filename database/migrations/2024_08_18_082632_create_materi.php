@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('materi', function (Blueprint $table) {
             $table->id();
             $table->uuid();
+            $table->string('cover');
             $table->string('materi');
             $table->foreignId('id_kategori')->references('id')->on('kategori');
             $table->boolean('lanjutan')->default(false);

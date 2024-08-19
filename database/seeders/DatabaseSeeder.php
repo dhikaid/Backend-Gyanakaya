@@ -31,16 +31,19 @@ class DatabaseSeeder extends Seeder
 
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'kategori' => 'HTML',
         ]);
 
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'kategori' => 'CSS',
         ]);
 
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'kategori' => 'Javascript',
         ]);
 
@@ -49,24 +52,28 @@ class DatabaseSeeder extends Seeder
         Materi::factory()->create([
             'uuid' => fake()->uuid(),
             'materi' => fake()->word(10),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'id_kategori' => rand(1, 3),
             'lanjutan' => array_rand($boolean, 1)
         ]);
         Materi::factory()->create([
             'uuid' => fake()->uuid(),
             'materi' => fake()->word(10),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'id_kategori' => rand(1, 3),
             'lanjutan' => array_rand($boolean, 1)
         ]);
         Materi::factory()->create([
             'uuid' => fake()->uuid(),
             'materi' => fake()->word(10),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'id_kategori' => rand(1, 3),
             'lanjutan' => array_rand($boolean, 1)
         ]);
         Materi::factory()->create([
             'uuid' => fake()->uuid(),
             'materi' => fake()->word(10),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'id_kategori' => rand(1, 3),
             'lanjutan' => array_rand($boolean, 1)
         ]);
@@ -74,12 +81,14 @@ class DatabaseSeeder extends Seeder
         Modul::factory()->create([
             'uuid' => fake()->uuid(),
             'modul' => fake()->word(10),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'id_materi' => rand(1, 3),
             'detail' => fake()->paragraph()
         ]);
         Modul::factory()->create([
             'uuid' => fake()->uuid(),
             'modul' => fake()->word(10),
+            'cover' => 'cover/' . fake()->image(storage_path('app/public/cover')),
             'id_materi' => rand(1, 3),
             'detail' => fake()->paragraph()
         ]);
