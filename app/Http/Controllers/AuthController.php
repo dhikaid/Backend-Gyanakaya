@@ -71,7 +71,7 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return new PostAuthResource(200, 'Sukses, ini adalah akun anda.', $request->user());
+        return new PostAuthResource(200, 'Sukses, ini adalah akun anda.', $request->user()->load('role'));
     }
 
     /**
