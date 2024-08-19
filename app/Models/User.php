@@ -6,6 +6,7 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -37,7 +38,8 @@ class User extends Authenticatable
         'remember_token',
         'created_at',
         'updated_at',
-        'id'
+        'id',
+        'id_role'
     ];
 
     /**
@@ -56,5 +58,10 @@ class User extends Authenticatable
     public function getImageAttribute($value)
     {
         return url('storage/' . $value);
+    }
+
+    public function role(): HasOne
+    {
+        return $this->hasOne(Role::class, 'id', 'id_role');
     }
 }

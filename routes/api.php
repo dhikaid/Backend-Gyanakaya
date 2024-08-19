@@ -27,5 +27,5 @@ Route::get('/materi/{materi:uuid}', [MateriController::class, 'show']);
 
 // DEV
 Route::get('/user/all', function () {
-    return new GetResource(200, 'Sukses mengambil data.', User::all());
+    return new GetResource(200, 'Sukses mengambil data.', User::with('role')->get());
 });
