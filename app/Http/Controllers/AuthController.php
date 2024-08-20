@@ -104,7 +104,8 @@ class AuthController extends Controller
             // VALIDATE
             $rules = [
                 'username' => 'required|string|max:30',
-                'fullname' => 'required|string|max:150',
+                'firstname' => 'required|string|max:150',
+                'lastname' => 'required|string|max:150',
                 'email' => 'required|email:rfc,dns|string',
             ];
 
@@ -112,10 +113,13 @@ class AuthController extends Controller
                 $rules['email'] = 'required|email:rfc,dns|string|unique:user,email';
             }
 
+            if ($request->file('image')) {
+                $rules['image'] = 'required|image|max:5000';
+            }
+
             if ($request->username !== $user->username) {
                 $rules['username'] = 'required|string|max:30|unique:user,username';
             }
-
 
             if ($request->password) {
                 $rules['prev_password'] = 'required|min:8|string';
@@ -132,6 +136,10 @@ class AuthController extends Controller
                 } else {
                     return new PostAuthResource(200, 'Gagal! Password salah');
                 }
+            }
+
+            if ($request->file('image')) {
+                $validatedData['image'] = $request->file('image')->store('avatar');
             }
 
             DB::transaction(function () use ($validatedData, &$user, $request) {
