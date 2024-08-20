@@ -113,7 +113,7 @@ class AuthController extends Controller
                 $rules['email'] = 'required|email:rfc,dns|string|unique:user,email';
             }
 
-            if ($request->file('image')) {
+            if ($request->image) {
                 $rules['image'] = 'required|image|max:5000';
             }
 
