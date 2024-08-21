@@ -6,6 +6,7 @@ use App\Models\Materi;
 use Illuminate\Http\Request;
 use App\Http\Resources\GetResource;
 use App\Http\Resources\PostAuthResource;
+use App\Models\Modul;
 use Illuminate\Validation\ValidationException;
 
 class MateriController extends Controller
@@ -32,6 +33,16 @@ class MateriController extends Controller
             return new PostAuthResource(200, 'Sukses mengambil data', $materi);
         } catch (ValidationException $e) {
             new PostAuthResource(200, 'Terjadi kesalahan', $e->errors());
+        }
+    }
+
+
+    public function detail(Materi $materi, Modul $modul)
+    {
+        if ($modul->id_materi === $materi->id) {
+            return new GetResource(200, 'Sukses mengambil data', $modul);
+        } else {
+            return new GetResource(200, 'Terjadi kesalahan');
         }
     }
 
