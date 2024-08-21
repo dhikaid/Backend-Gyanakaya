@@ -24,7 +24,7 @@ Route::get('/kategori/all', [KategoriController::class, 'index']);
 Route::post('/materi', [MateriController::class, 'search']);
 Route::get('/materi/all', [MateriController::class, 'index']);
 Route::get('/materi/{materi:uuid}', [MateriController::class, 'show']);
-Route::get('/materi/{materi:uuid}/{modul:uuid}', [MateriController::class, 'detail']);
+Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail']);
 
 // DEV
 Route::get('/user/all', function () {

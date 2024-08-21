@@ -37,8 +37,9 @@ class MateriController extends Controller
     }
 
 
-    public function detail(Materi $materi, Modul $modul)
+    public function detail(Materi $materi, string $modul)
     {
+        $modul = Modul::find($modul);
         if ($modul->id_materi === $materi->id) {
             return new GetResource(200, 'Sukses mengambil data', $modul);
         } else {
