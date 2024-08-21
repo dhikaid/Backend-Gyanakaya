@@ -17,7 +17,7 @@ class GetResource extends JsonResource
     public $message;
     public $data;
 
-    public function __construct($status, $message, $data)
+    public function __construct($status, $message, $data = [])
     {
         parent::__construct($data);
         $this->status  = $status;
