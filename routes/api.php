@@ -15,16 +15,19 @@ Route::post('/user/signin', [AuthController::class, 'signin'])->middleware('gues
 Route::post('/user/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum');
 Route::get('/user/me', [AuthController::class, 'user'])->middleware('auth:sanctum');
 Route::put('/user/edit', [AuthController::class, 'update'])->middleware('auth:sanctum');
-Route::post('/user/forgot', [AuthController::class, 'forgot'])->middleware('guest')->name('password.request');
-Route::post('/user/forgot/{token}', [AuthController::class, 'forgetPassword'])->middleware('guest')->name('password.reset');
+Route::post('/user/reset', [AuthController::class, 'forgot'])->middleware('guest')->name('password.request');
+Route::post('/user/reset/{token}', [AuthController::class, 'forgetPassword'])->middleware('guest')->name('password.reset');
+Route::post('/user/reset-password', [AuthController::class, 'resetPassword'])->middleware('auth:sanctum');
 
 
 // KATEGORI
 Route::get('/kategori/all', [KategoriController::class, 'index']);
 Route::get('/kategori/front', [KategoriController::class, 'front']);
+Route::get('/kategori/{kategori:uuid}', [KategoriController::class, 'detail']);
 
 // MATERI
 Route::post('/materi', [MateriController::class, 'search']);
+Route::get('/materi/lastest', [MateriController::class, 'lastest']);
 Route::get('/materi/all', [MateriController::class, 'index']);
 Route::get('/materi/{materi:uuid}', [MateriController::class, 'show']);
 Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail']);

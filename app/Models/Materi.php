@@ -19,7 +19,7 @@ class Materi extends Model
     protected $hidden = [
         'id',
         'id_kategori',
-        'lanjutan',
+        // 'lanjutan',
         'created_at',
         'updated_at'
     ];
@@ -37,5 +37,14 @@ class Materi extends Model
     public function getCoverAttribute($value)
     {
         return url('storage/' . $value);
+    }
+
+    public function getLanjutanAttribute($value)
+    {
+        if ($value == true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

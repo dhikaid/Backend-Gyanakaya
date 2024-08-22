@@ -121,7 +121,6 @@ class AuthController extends Controller
                             event(new PasswordReset($user));
                         }
                     );
-
                     return new PostAuthResource(200, 'Sukses! Password telah direset. Silahkan masuk kembali.');
                 } else {
                     return new PostAuthResource(422, 'Dilarang! Token tidak diterima!');
@@ -132,6 +131,28 @@ class AuthController extends Controller
         }
     }
 
+
+    public function resetPassword(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'prev_password' => 'required|min:8',
+                'password1' => "required|min:8",
+                'password2' => "required|min:8|same:password1",
+            ]);
+
+            if (password_verify($validatedData['prev_password'], $request->user()->password)) {
+                $password = $validatedData['password1'];
+                DB::transaction(function () use ($password, $request, &$user) {
+                    $user =   User::where('id', $request->user()->id)->update(['password' => Hash::make($password)]);
+                });
+                return new PostAuthResource(200, 'Sukses! Password anda telah diganti!');
+            }
+            return new PostAuthResource(422, 'Something wrong!');
+        } catch (ValidationException $e) {
+            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+        }
+    }
 
     /**
      * Display a listing of the resource.

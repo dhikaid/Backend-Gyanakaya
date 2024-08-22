@@ -24,6 +24,11 @@ class KategoriController extends Controller
         return new GetResource(200, 'Sukses mengambil data', $category);
     }
 
+    public function detail(Kategori $kategori)
+    {
+        return new GetResource(200, 'Sukses mengambil data', $kategori->load('materi'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

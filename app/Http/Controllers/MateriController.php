@@ -47,6 +47,11 @@ class MateriController extends Controller
         }
     }
 
+    public function lastest()
+    {
+        return new GetResource(200, 'Sukses mengambil data', Materi::latest()->get());
+    }
+
     /**
      * Show the form for creating a new resource.
      */
