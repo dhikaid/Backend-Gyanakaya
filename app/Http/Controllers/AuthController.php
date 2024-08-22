@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\PostAuthResource;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\PostAuthResource;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -17,7 +20,7 @@ class AuthController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'username' => 'required|string|max:30|exists:user,username',
+                'username' => 'required|string|max:30|exists:users,username',
                 'password' => 'required|min:8|string',
             ]);
 
@@ -39,10 +42,10 @@ class AuthController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'username' => 'required|string|max:30|unique:user,username',
+                'username' => 'required|string|max:30|unique:users,username',
                 'firstname' => 'required|string|max:150',
                 'lastname' => 'required|string|max:150',
-                'email' => 'required|email:rfc,dns|string|unique:user,email',
+                'email' => 'required|email:rfc,dns|string|unique:users,email',
                 'password' => 'required|min:8|string',
                 'password2' => 'required|min:8|string|same:password',
             ]);
@@ -73,6 +76,62 @@ class AuthController extends Controller
     {
         return new PostAuthResource(200, 'Sukses, ini adalah akun anda.', $request->user()->load('role'));
     }
+
+    public function forgot(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'email' => 'required|email:dns,rfc'
+            ]);
+
+            $password = Password::sendResetLink([
+                'email' => $validatedData['email']
+            ]);
+
+            return new PostAuthResource(200, 'Jika akun email anda benar, maka link password sudah dikirimkan di email anda. Silahkan check inbox/spam.');
+        } catch (ValidationException $e) {
+            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+        }
+    }
+
+    public function forgetPassword(Request $request, string $token)
+    {
+        try {
+            if ($request->email && $user = User::where('email', $request->email)->first()) {
+                $validatedData = $request->validate([
+                    'token' => 'required',
+                    'email' => "email:rfc,dns|required|exists:users,email",
+                    'password1' => "required|min:8",
+                    'password2' => "required|min:8|same:password1",
+                ]);
+                if (Password::tokenExists($user, $validatedData['token'])) {
+                    $validasi = [
+                        'token' => $validatedData['token'],
+                        'email' => $validatedData['email'],
+                        'password' => $validatedData['password1'],
+                        'password_confirmation' => $validatedData['password2'],
+                    ];
+                    $status = Password::reset(
+                        $validasi,
+                        function (User $user, string $password) {
+                            $user->forceFill([
+                                'password' => Hash::make($password)
+                            ])->setRememberToken(Str::random(60));
+                            $user->save();
+                            event(new PasswordReset($user));
+                        }
+                    );
+
+                    return new PostAuthResource(200, 'Sukses! Password telah direset. Silahkan masuk kembali.');
+                } else {
+                    return new PostAuthResource(422, 'Dilarang! Token tidak diterima!');
+                }
+            }
+        } catch (ValidationException $e) {
+            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+        }
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -110,7 +169,7 @@ class AuthController extends Controller
             ];
 
             if ($request->email !== $user->email) {
-                $rules['email'] = 'required|email:rfc,dns|string|unique:user,email';
+                $rules['email'] = 'required|email:rfc,dns|string|unique:users,email';
             }
 
             if ($request->image) {
@@ -118,7 +177,7 @@ class AuthController extends Controller
             }
 
             if ($request->username !== $user->username) {
-                $rules['username'] = 'required|string|max:30|unique:user,username';
+                $rules['username'] = 'required|string|max:30|unique:users,username';
             }
 
             if ($request->password) {

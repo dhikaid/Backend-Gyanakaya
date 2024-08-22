@@ -15,10 +15,13 @@ Route::post('/user/signin', [AuthController::class, 'signin'])->middleware('gues
 Route::post('/user/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum');
 Route::get('/user/me', [AuthController::class, 'user'])->middleware('auth:sanctum');
 Route::put('/user/edit', [AuthController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/user/forgot', [AuthController::class, 'forgot'])->middleware('guest')->name('password.request');
+Route::post('/user/forgot/{token}', [AuthController::class, 'forgetPassword'])->middleware('guest')->name('password.reset');
 
 
 // KATEGORI
 Route::get('/kategori/all', [KategoriController::class, 'index']);
+Route::get('/kategori/front', [KategoriController::class, 'front']);
 
 // MATERI
 Route::post('/materi', [MateriController::class, 'search']);

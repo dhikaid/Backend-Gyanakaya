@@ -22,7 +22,7 @@ return new class extends Migration
         });
         Schema::create('materi_user', function (Blueprint $table) {
             $table->foreignId('id_materi')->references('id')->on('materi');
-            $table->foreignId('id_user')->references('id')->on('user');
+            $table->foreignId('id_user')->references('id')->on('users');
             $table->string('status');
         });
     }

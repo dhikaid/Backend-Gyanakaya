@@ -18,6 +18,12 @@ class KategoriController extends Controller
         return new GetResource(200, 'Sukses mengambil data', $category);
     }
 
+    public function front()
+    {
+        $category = Kategori::all()->take(3);
+        return new GetResource(200, 'Sukses mengambil data', $category);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

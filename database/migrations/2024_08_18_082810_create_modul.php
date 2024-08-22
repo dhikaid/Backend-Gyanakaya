@@ -23,7 +23,7 @@ return new class extends Migration
 
         Schema::create('modul_user', function (Blueprint $table) {
             $table->foreignId('id_modul')->references('id')->on('modul');
-            $table->foreignId('id_user')->references('id')->on('user');
+            $table->foreignId('id_user')->references('id')->on('users');
             $table->string('status');
         });
     }
