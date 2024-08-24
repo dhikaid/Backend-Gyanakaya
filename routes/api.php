@@ -18,6 +18,7 @@ Route::put('/user/edit', [AuthController::class, 'update'])->middleware('auth:sa
 Route::post('/user/reset', [AuthController::class, 'forgot'])->middleware('guest')->name('password.request');
 Route::post('/user/reset/{token}', [AuthController::class, 'forgetPassword'])->middleware('guest')->name('password.reset');
 Route::post('/user/reset-password', [AuthController::class, 'resetPassword'])->middleware('auth:sanctum');
+Route::post('/user/cektoken', [AuthController::class, 'cekToken'])->middleware('guest');
 
 
 // KATEGORI

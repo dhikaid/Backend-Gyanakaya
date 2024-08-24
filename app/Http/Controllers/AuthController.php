@@ -34,7 +34,7 @@ class AuthController extends Controller
 
             return new PostAuthResource(422, 'Username atau password salah. Silahkan coba kembali.');
         } catch (ValidationException $e) {
-            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+            return new PostAuthResource($e->status, 'Something wrong!', $e->errors());
         }
     }
 
@@ -131,6 +131,25 @@ class AuthController extends Controller
         }
     }
 
+    public function cekToken(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'token' => 'required|string',
+                'email' => 'email:dns,rfc|required'
+            ]);
+
+            if ($validatedData['email'] && $user = User::where('email', $validatedData['email'])->first()) {
+                if (Password::tokenExists($user, $request->token)) {
+                    return new PostAuthResource(200, 'Sukses! User tervalidasi!');
+                }
+            }
+
+            return new PostAuthResource(422, 'Terjadi kesalahan');
+        } catch (ValidationException $e) {
+            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+        }
+    }
 
     public function resetPassword(Request $request)
     {

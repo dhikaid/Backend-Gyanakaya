@@ -92,5 +92,19 @@ class DatabaseSeeder extends Seeder
             'id_materi' => rand(1, 3),
             'detail' => fake()->paragraph()
         ]);
+        Modul::factory()->create([
+            'uuid' => fake()->uuid(),
+            'modul' => fake()->word(10),
+            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'))),
+            'id_materi' => rand(1, 3),
+            'detail' => fake()->paragraph()
+        ]);
+        Modul::factory()->create([
+            'uuid' => fake()->uuid(),
+            'modul' => fake()->word(10),
+            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'))),
+            'id_materi' => rand(1, 3),
+            'detail' => fake()->paragraph()
+        ]);
     }
 }
