@@ -32,18 +32,18 @@ class MateriController extends Controller
             // dd($materi);
             return new PostAuthResource(200, 'Sukses mengambil data', $materi);
         } catch (ValidationException $e) {
-            new PostAuthResource(200, 'Terjadi kesalahan', $e->errors());
+            new PostAuthResource(422, 'Terjadi kesalahan', $e->errors());
         }
     }
 
 
     public function detail(Materi $materi, string $modul)
     {
-        $modul = Modul::find($modul);
+        $modul = Modul::where('uuid', $modul)->first();
         if ($modul->id_materi === $materi->id) {
             return new GetResource(200, 'Sukses mengambil data', $modul);
         } else {
-            return new GetResource(200, 'Terjadi kesalahan');
+            return new GetResource(422, 'Terjadi kesalahan');
         }
     }
 
