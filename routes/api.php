@@ -32,7 +32,7 @@ Route::post('/materi', [MateriController::class, 'search']);
 Route::get('/materi/lastest', [MateriController::class, 'lastest']);
 Route::get('/materi/all', [MateriController::class, 'index']);
 Route::get('/materi/{materi:uuid}', [MateriController::class, 'show'])->middleware('auth:sanctum');
-Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail']);
+Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail'])->middleware('auth:sanctum');
 
 
 // CEK USER BELAJAR

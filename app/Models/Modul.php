@@ -16,7 +16,8 @@ class Modul extends Model
     protected $hidden = [
         'id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'id_materi'
     ];
     public function getCoverAttribute($value)
     {

@@ -31,7 +31,6 @@ class MateriController extends Controller
             ]);
 
             $materi = Materi::search($validatedData['query'])->get();
-
             // dd($materi);
             return new PostAuthResource(200, 'Sukses mengambil data', $materi);
         } catch (ValidationException $e) {
@@ -40,14 +39,15 @@ class MateriController extends Controller
     }
 
 
-    public function detail(Materi $materi, string $modul)
+    public function detail(Materi $materi, string $modul, Request $request)
     {
         $modul = Modul::where('uuid', $modul)->first();
         if ($modul->id_materi === $materi->id) {
-            return new GetResource(200, 'Sukses mengambil data', $modul);
-        } else {
-            return new GetResource(422, 'Terjadi kesalahan');
+            if (ModulUser::where('id_user', $request->user()->id)->where('id_modul', $modul->id)->first()) {
+                return new GetResource(200, 'Sukses mengambil data', $modul);
+            }
         }
+        return new GetResource(403, 'Dilarang masuk! Anda tidak terdaftar/belum menyelesaikan materi sebelumnya');
     }
 
     public function lastest()
