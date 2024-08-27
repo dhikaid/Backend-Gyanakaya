@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MateriController;
+use App\Http\Controllers\ModulController;
 use App\Models\Kategori;
 
 // AUTH
@@ -30,8 +31,15 @@ Route::get('/kategori/{kategori:uuid}', [KategoriController::class, 'detail']);
 Route::post('/materi', [MateriController::class, 'search']);
 Route::get('/materi/lastest', [MateriController::class, 'lastest']);
 Route::get('/materi/all', [MateriController::class, 'index']);
-Route::get('/materi/{materi:uuid}', [MateriController::class, 'show']);
+Route::get('/materi/{materi:uuid}', [MateriController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail']);
+
+
+// CEK USER BELAJAR
+Route::get('/user/materi/{materi:uuid}', [MateriController::class, 'checkUser'])->middleware('auth:sanctum');
+Route::post('/user/materi/{materi:uuid}', [MateriController::class, 'registerCourse'])->middleware('auth:sanctum');
+Route::post('/user/modul/{modul:uuid}', [ModulController::class, 'checkModul'])->middleware('auth:sanctum');
+
 
 // DEV
 Route::get('/user/all', function () {

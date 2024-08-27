@@ -3,11 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Modul;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreModulRequest;
 use App\Http\Requests\UpdateModulRequest;
+use App\Http\Resources\PostAuthResource;
+use App\Models\ModulUser;
 
 class ModulController extends Controller
 {
+
+    public function checkModul(Modul $modul, Request $request)
+    {
+        if (!ModulUser::where('id_modul', $modul->id)->where('id_user', $request->user()->id)->first()) {
+            DB::transaction(function () use (&$moduluser, $request, $modul) {
+                $validatedData = [
+                    'id_user' => $request->user()->id,
+                    'id_modul' => $modul->id,
+                    'status' => true,
+                ];
+                $moduluser =  ModulUser::create($validatedData);
+            });
+            return new PostAuthResource(200, 'Sukses membaca modul', $moduluser->status);
+        }
+
+        return new PostAuthResource(422, 'Terjadi kesalahan');
+    }
     /**
      * Display a listing of the resource.
      */

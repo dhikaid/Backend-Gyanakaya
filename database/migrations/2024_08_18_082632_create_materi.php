@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid();
             $table->string('cover');
             $table->string('materi');
+            $table->string('deskripsi');
             $table->foreignId('id_kategori')->references('id')->on('kategori');
             $table->boolean('lanjutan')->default(false);
             $table->timestamps();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->foreignId('id_materi')->references('id')->on('materi');
             $table->foreignId('id_user')->references('id')->on('users');
             $table->string('status');
+            $table->timestamps();
         });
     }
 
