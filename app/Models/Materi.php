@@ -29,6 +29,11 @@ class Materi extends Model
         return $this->hasMany(Modul::class, 'id_materi', 'id');
     }
 
+    public function firstModul(): HasMany
+    {
+        return $this->hasMany(Modul::class, 'id_materi', 'id');
+    }
+
     public function user(): HasMany
     {
         return $this->hasMany(MateriUser::class, 'id_materi', 'id_materi');

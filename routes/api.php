@@ -34,7 +34,6 @@ Route::get('/materi/all', [MateriController::class, 'index']);
 Route::get('/materi/{materi:uuid}', [MateriController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail'])->middleware('auth:sanctum');
 
-
 // CEK USER BELAJAR
 Route::get('/user/materi/{materi:uuid}', [MateriController::class, 'checkUser'])->middleware('auth:sanctum');
 Route::post('/user/materi/{materi:uuid}', [MateriController::class, 'registerCourse'])->middleware('auth:sanctum');

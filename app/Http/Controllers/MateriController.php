@@ -85,6 +85,14 @@ class MateriController extends Controller
                     'status' => true
                 ];
                 $materiuser = MateriUser::create($validatedData);
+
+
+                $validatedData = [
+                    'id_user' => $request->user()->id,
+                    'id_modul' => Modul::where('id_materi', $materi->id)->orderBy('created_at', 'asc')->first()->id,
+                    'status' => true,
+                ];
+                ModulUser::create($validatedData);
             });
             return new PostAuthResource(200, 'Sukses mendaftar kelas!', $materiuser->status);
         }
@@ -115,7 +123,7 @@ class MateriController extends Controller
     {
         // Load materi dengan modul dan user terkait
         $materi->load(['modul' => function ($query) use ($request) {
-            $query->select('id_materi', 'id', 'uuid', 'cover', 'modul');
+            $query->select('id_materi', 'id', 'uuid', 'cover', 'modul')->orderBy('created_at', 'asc');
         }, 'modul.user' => function ($query) use ($request) {
             $query->select('id_modul', 'status')->where('id_user', $request->user()->id);
         }]);

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreModulRequest;
 use App\Http\Requests\UpdateModulRequest;
 use App\Http\Resources\PostAuthResource;
+use App\Models\MateriUser;
 use App\Models\ModulUser;
 
 class ModulController extends Controller
@@ -15,7 +16,7 @@ class ModulController extends Controller
 
     public function checkModul(Modul $modul, Request $request)
     {
-        if (!ModulUser::where('id_modul', $modul->id)->where('id_user', $request->user()->id)->first()) {
+        if (!ModulUser::where('id_modul', $modul->id)->where('id_user', $request->user()->id)->first() && MateriUser::where('id_user', $request->user()->id)->where('id_materi', $modul->id_materi)) {
             DB::transaction(function () use (&$moduluser, $request, $modul) {
                 $validatedData = [
                     'id_user' => $request->user()->id,
@@ -24,7 +25,9 @@ class ModulController extends Controller
                 ];
                 $moduluser =  ModulUser::create($validatedData);
             });
-            return new PostAuthResource(200, 'Sukses membaca modul', $moduluser->status);
+            return new PostAuthResource(200, 'Sukses! Sudah membaca modul', $moduluser->status);
+        } elseif (ModulUser::where('id_modul', $modul->id)->where('id_user', $request->user()->id)->first() && MateriUser::where('id_user', $request->user()->id)->where('id_materi', $modul->id_materi)) {
+            return new PostAuthResource(200, 'Sukses! Pernah membaca modul', $moduluser->status);
         }
 
         return new PostAuthResource(422, 'Terjadi kesalahan');
