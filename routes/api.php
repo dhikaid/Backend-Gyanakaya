@@ -8,7 +8,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\ReviewsController;
 use App\Models\Kategori;
+use App\Models\Reviews;
 
 // AUTH
 Route::post('/user/signup', [AuthController::class, 'signup'])->middleware('guest');
@@ -38,6 +40,9 @@ Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail'])
 Route::get('/user/materi/{materi:uuid}', [MateriController::class, 'checkUser'])->middleware('auth:sanctum');
 Route::post('/user/materi/{materi:uuid}', [MateriController::class, 'registerCourse'])->middleware('auth:sanctum');
 Route::post('/user/modul/{modul:uuid}', [ModulController::class, 'checkModul'])->middleware('auth:sanctum');
+
+// REVIEW
+Route::get('/reviews', [ReviewsController::class, 'index']);
 
 
 // DEV
