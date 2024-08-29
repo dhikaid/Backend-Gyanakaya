@@ -449,37 +449,37 @@ class DatabaseSeeder extends Seeder
 
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'reviews' => fake()->paragraph(),
+            'review' => fake()->paragraph(),
             'stars' => rand(1, 5),
         ]);
     }
