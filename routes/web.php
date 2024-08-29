@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use setasign\Fpdi\Fpdi;
 
 Route::get('/', function () {
-    return response()->json(200, [
-        'status' => 'Rafli, bentar lagi pengumpulan 😄'
-    ]);
+    
 });
+
 
 Route::get('/linkstorage', function () {
     Artisan::call('storage:link');

@@ -27,7 +27,7 @@ class ModulController extends Controller
             });
             return new PostAuthResource(200, 'Sukses! Sudah membaca modul', $moduluser->status);
         } elseif (ModulUser::where('id_modul', $modul->id)->where('id_user', $request->user()->id)->first() && MateriUser::where('id_user', $request->user()->id)->where('id_materi', $modul->id_materi)) {
-            return new PostAuthResource(200, 'Sukses! Pernah membaca modul', $moduluser->status);
+            return new PostAuthResource(200, 'Sukses! Pernah membaca modul');
         }
 
         return new PostAuthResource(422, 'Terjadi kesalahan');

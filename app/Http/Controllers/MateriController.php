@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Modul;
 use App\Models\Materi;
+use setasign\Fpdi\Fpdi;
+use App\Models\ModulUser;
 use App\Models\MateriUser;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\GetResource;
 use App\Http\Resources\PostAuthResource;
-use App\Models\ModulUser;
+use App\Models\Certificate;
 use Illuminate\Validation\ValidationException;
 
 class MateriController extends Controller
@@ -19,7 +23,22 @@ class MateriController extends Controller
      */
     public function index()
     {
-        $materi = Materi::all();
+        $materi = Materi::all()->map(function ($item) {
+            // Ambil data tambahan sesuai dengan kebutuhan Anda
+            $jumlahModul = Modul::where('id_materi', $item->id)->count();
+            $jumlahSiswa = MateriUser::where('id_materi', $item->id)->count();
+
+            return [
+                'uuid' => $item->uuid,
+                'cover' => $item->cover,
+                'materi' => $item->materi,
+                'deskripsi' => $item->deskripsi,
+                'lanjutan' => $item->lanjutan,
+                'jumlah_siswa' => $jumlahSiswa, // Tambahkan nama siswa
+                'jumlah_modul' => $jumlahModul, // Tambahkan jumlah modul
+            ];
+        });
+
         return new GetResource(200, 'Sukses mengambil data', $materi);
     }
 
@@ -99,6 +118,103 @@ class MateriController extends Controller
         return new PostAuthResource(422, 'Terjadi kesalahan', $materiuser);
     }
 
+
+    public function generateCertificate(Materi $materi, Request $request)
+    {
+
+        if (
+            Modul::where('id_materi', $materi->id)->count() === Modul::where('id_materi', $materi->id)
+            ->whereHas('user', function ($query) use ($request) {
+                $query->where('id_user', $request->user()->id);
+            })
+            ->count() && MateriUser::where('id_materi', $materi->id)->where('id_user', $request->user()->id)->first()
+        ) {
+
+            $nama1 = $this->abbreviateName($request->user()->firstname . ' ' . $request->user()->lastname, 20);
+            $nama2 = Str::upper($materi->materi);
+            if (!Certificate::where('id_materi', $materi->id)->where('id_user', $request->user()->id)->first()) {
+                $tanggal =  Modul::where('id_materi', $materi->id)
+                    ->whereHas('user', function ($query) use ($request) {
+                        $query->where('id_user', $request->user()->id);
+                    })
+                    ->latest()->first();
+                $tanggal = Carbon::parse($tanggal->created_at)->locale('id')->translatedFormat('d F Y');
+
+                $sertifikatnama =  $request->user()->uuid . '-' . fake()->uuid();
+                $outputFile = storage_path('app/public/cert/' . $sertifikatnama . '.pdf');
+                $fpdi = new Fpdi();
+                $fpdi->setSourceFile(storage_path('app/public/cert/cert-template-forbidden.pdf'));
+                $template = $fpdi->importPage(1);
+                $size = $fpdi->getTemplateSize($template);
+                $fpdi->AddPage($size['orientation'], array($size['width'], $size['height']));
+                $fpdi->useTemplate($template);
+
+                // Menggunakan font Poppins-Bold sesuai dengan nama yang ada di file PHP
+                $fpdi->AddFont('Poppins-SemiBold', '', 'Poppins-SemiBold.php', public_path('fonts'));
+                $fpdi->SetFont('Poppins-SemiBold', '', 50);
+                $fpdi->SetTextColor(25, 26, 25);
+                $fpdi->Text(34, 100, $nama1);
+
+                $fpdi->SetFont('Poppins-SemiBold', '', 35);
+                $fpdi->Text(34, 130, $nama2);
+
+                $fpdi->SetFont('Poppins-SemiBold', '', 15);
+                $fpdi->Text(34, 167, $tanggal);
+
+                // Simpan file output
+                $fpdi->Output($outputFile, 'F');
+                DB::transaction(function () use ($request, $sertifikatnama, &$certificate, $materi, $outputFile) {
+                    $validatedData = [
+                        'uuid' => fake()->uuid(),
+                        'id_materi' => $materi->id,
+                        'id_user' => $request->user()->id,
+                        'sertifikat' => 'cert/' . $sertifikatnama . '.pdf'
+                    ];
+                    $certificate =  Certificate::create($validatedData);
+                });
+                $data = [
+                    'nama' => $nama1,
+                    'materi' => $materi->materi,
+                    'terbit' => Carbon::parse($certificate->created_at)->locale('id')->translatedFormat('d F Y'),
+                    'sertifikat' => url('/storage/cert/' . $sertifikatnama . '.pdf')
+                ];
+                return new GetResource(200, 'Sukses mencetak sertifikat', $data);
+            } else {
+                $certificate = Certificate::where('id_materi', $materi->id)->where('id_user', $request->user()->id)->first();
+                $data = [
+                    'nama' => $nama1,
+                    'materi' => $materi->materi,
+                    'terbit' => Carbon::parse($certificate->created_at)->locale('id')->translatedFormat('d F Y'),
+                    'sertifikat' => $certificate->sertifikat
+                ];
+                return new GetResource(200, 'Sukses mencetak sertifikat', $data);
+            }
+            return new PostAuthResource(422, 'Terjadi kesalahan', $materiuser);
+        }
+    }
+
+    public function abbreviateName($name, $length = 20)
+    {
+        // Jika nama lebih dari panjang yang diizinkan
+        if (strlen($name) > $length) {
+            $words = explode(' ', $name);
+            $abbreviation = array_shift($words);
+            foreach ($words as $word) {
+                $abbreviation .= ' ' . substr($word, 0, 1);
+            }
+
+            // Memendekkan hasil singkatan dan menambahkan suffix "A" jika panjang lebih dari 18 karakter
+            $result = Str::limit($abbreviation, $length, '');
+            if (strlen($result) > 18) {
+                $result = substr($result, 0, $length - 2) . 'A';
+            }
+        } else {
+            // Jika nama tidak melebihi panjang yang diizinkan, gunakan nama lengkap
+            $result = $name;
+        }
+
+        return Str::upper($result);
+    }
 
     /**
      * Show the form for creating a new resource.

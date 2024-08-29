@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->foreignId('id_kategori')->references('id')->on('kategori');
             $table->boolean('lanjutan')->default(false);
+            $table->integer('waktu');
             $table->timestamps();
         });
         Schema::create('materi_user', function (Blueprint $table) {

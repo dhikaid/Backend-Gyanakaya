@@ -53,7 +53,8 @@ class DatabaseSeeder extends Seeder
             'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML Basic')),
             'id_kategori' => 1,
             'deskripsi' => 'Kelas HTML dasar ini mengajarkan dasar-dasar pembuatan halaman web, meliputi struktur tag, elemen, atribut, serta praktik terbaik untuk mengembangkan situs web yang responsif dan mudah diakses.',
-            'lanjutan' => false
+            'lanjutan' => false,
+            'waktu' => 150,
         ]);
 
         Materi::factory()->create([
@@ -62,7 +63,8 @@ class DatabaseSeeder extends Seeder
             'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML')),
             'id_kategori' => 1,
             'deskripsi' => 'Kelas HTML lanjutan ini membahas teknik pengembangan web modern, seperti penggunaan elemen semantik, optimasi aksesibilitas, integrasi API, dan penerapan HTML5 untuk membangun web yang interaktif.',
-            'lanjutan' => true
+            'lanjutan' => true,
+            'waktu' => 120,
         ]);
 
         // MODUL
@@ -449,37 +451,44 @@ class DatabaseSeeder extends Seeder
 
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(),
+            'review' => fake()->paragraph(1),
+            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
             'stars' => rand(1, 5),
         ]);
     }

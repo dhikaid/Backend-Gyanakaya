@@ -1,16 +1,18 @@
 <?php
 
 use App\Models\User;
+use App\Models\Reviews;
+use App\Models\Kategori;
+use App\Models\Certificate;
 use Illuminate\Http\Request;
 use App\Http\Resources\GetResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ReviewsController;
-use App\Models\Kategori;
-use App\Models\Reviews;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\CertificateController;
 
 // AUTH
 Route::post('/user/signup', [AuthController::class, 'signup'])->middleware('guest');
@@ -39,6 +41,8 @@ Route::get('/materi/{materi:uuid}/{modul}', [MateriController::class, 'detail'])
 // CEK USER BELAJAR
 Route::get('/user/materi/{materi:uuid}', [MateriController::class, 'checkUser'])->middleware('auth:sanctum');
 Route::post('/user/materi/{materi:uuid}', [MateriController::class, 'registerCourse'])->middleware('auth:sanctum');
+Route::post('/user/materi/{materi:uuid}/sertifikat', [MateriController::class, 'generateCertificate'])->middleware('auth:sanctum');
+Route::get('/user/sertifikat', [CertificateController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/user/modul/{modul:uuid}', [ModulController::class, 'checkModul'])->middleware('auth:sanctum');
 
 // REVIEW

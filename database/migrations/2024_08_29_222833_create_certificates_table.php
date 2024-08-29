@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('certificates', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('image');
-            $table->string('review');
-            $table->integer('stars');
+            $table->uuid()->unique();
+            $table->foreignId('id_materi')->references('id')->on('materi');
+            $table->foreignId('id_user')->references('id')->on('users');
+            $table->string('sertifikat')->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('certificates');
     }
 };
