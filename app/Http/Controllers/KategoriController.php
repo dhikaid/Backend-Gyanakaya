@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use App\Models\MateriUser;
 use App\Http\Resources\GetResource;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
@@ -26,8 +27,29 @@ class KategoriController extends Controller
 
     public function detail(Kategori $kategori)
     {
-        return new GetResource(200, 'Sukses mengambil data', $kategori->load('materi'));
+        // Load materi beserta modulnya menggunakan eager loading
+        $kategori->load(['materi.modul']);
+
+        // Loop melalui materi untuk menghitung jumlah modul dan siswa
+        $dataMateri = $kategori->materi->map(function ($materi) {
+            $jumlahModul = $materi->modul->count();
+            $jumlahSiswa = MateriUser::where('id_materi', $materi->id)->count();
+
+            return [
+                'uuid' => $materi->uuid,
+                'cover' => $materi->cover,
+                'materi' => $materi->materi,
+                'deskripsi' => $materi->deskripsi,
+                'lanjutan' => $materi->lanjutan,
+                'jumlah_siswa' => $jumlahSiswa,
+                'jumlah_modul' => $jumlahModul,
+                'waktu' => $materi->waktu,
+            ];
+        });
+
+        return new GetResource(200, 'Sukses mengambil data', $dataMateri);
     }
+
 
     /**
      * Show the form for creating a new resource.
