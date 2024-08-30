@@ -27,10 +27,6 @@ class KategoriController extends Controller
 
     public function detail(Kategori $kategori)
     {
-        // Load materi beserta modulnya menggunakan eager loading
-        $kategori->load(['materi.modul']);
-
-        // Loop melalui materi untuk menghitung jumlah modul dan siswa
         $dataMateri = $kategori->materi->map(function ($materi) {
             $jumlahModul = $materi->modul->count();
             $jumlahSiswa = MateriUser::where('id_materi', $materi->id)->count();
@@ -47,9 +43,13 @@ class KategoriController extends Controller
             ];
         });
 
-        return new GetResource(200, 'Sukses mengambil data', $dataMateri);
+        return new GetResource(200, 'Sukses mengambil data', [
+            'uuid' => $kategori->uuid,
+            'cover' => $kategori->cover,
+            'kategori' => $kategori->kategori,
+            'materi' => $dataMateri
+        ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
