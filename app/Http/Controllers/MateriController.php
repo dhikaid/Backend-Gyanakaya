@@ -36,6 +36,7 @@ class MateriController extends Controller
                 'lanjutan' => $item->lanjutan,
                 'jumlah_siswa' => $jumlahSiswa, // Tambahkan nama siswa
                 'jumlah_modul' => $jumlahModul, // Tambahkan jumlah modul
+                'waktu' => $item->waktu
             ];
         });
 
@@ -237,31 +238,45 @@ class MateriController extends Controller
      */
     public function show(Materi $materi, Request $request)
     {
-        // Load materi dengan modul dan user terkait
+        // Load materi dengan modul dan user terkait dalam satu kali query
         $materi->load(['modul' => function ($query) use ($request) {
-            $query->select('id_materi', 'id', 'uuid', 'cover', 'modul')->orderBy('created_at', 'asc');
-        }, 'modul.user' => function ($query) use ($request) {
-            $query->select('id_modul', 'status')->where('id_user', $request->user()->id);
+            $query->select('id_materi', 'id', 'uuid', 'cover', 'modul')->orderBy('created_at', 'asc')
+                ->with(['user' => function ($query) use ($request) {
+                    $query->select('id_modul', 'status')->where('id_user', $request->user()->id);
+                }]);
         }]);
 
-        // Transformasi modul dengan mengubah user menjadi boolean
-        $materi->modul->transform(function ($modul) {
-            // Cek jika ada user dengan status 1, jika ada set user menjadi true, jika tidak set menjadi false
-            $hasActiveUser = $modul->user->contains(function ($user) {
-                return $user->status == 1;
-            });
+        // Ambil jumlah modul dan jumlah siswa
+        $jumlahModul = $materi->modul->count();
+        $jumlahSiswa = MateriUser::where('id_materi', $materi->id)->count();
 
-            // Menyusun kembali array modul dengan user sebagai boolean
-            return [
-                'uuid' => $modul->uuid,
-                'cover' => $modul->cover,
-                'modul' => $modul->modul,
-                'unlock' => $hasActiveUser
-            ];
-        });
+        // Transformasi data materi
+        $dataMateri = [
+            'uuid' => $materi->uuid,
+            'cover' => $materi->cover,
+            'materi' => $materi->materi,
+            'deskripsi' => $materi->deskripsi,
+            'lanjutan' => $materi->lanjutan,
+            'jumlah_siswa' => $jumlahSiswa,
+            'jumlah_modul' => $jumlahModul,
+            'waktu' => $materi->waktu,
+            'modul' => $materi->modul->map(function ($modul) {
+                $hasActiveUser = $modul->user->contains(function ($user) {
+                    return $user->status == 1;
+                });
 
-        return new GetResource(200, 'Sukses mengambil data', $materi);
+                return [
+                    'uuid' => $modul->uuid,
+                    'cover' => $modul->cover,
+                    'modul' => $modul->modul,
+                    'unlock' => $hasActiveUser
+                ];
+            })
+        ];
+
+        return new GetResource(200, 'Sukses mengambil data', $dataMateri);
     }
+
 
 
 
