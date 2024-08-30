@@ -159,13 +159,16 @@ class AuthController extends Controller
                 'password1' => "required|min:8",
                 'password2' => "required|min:8|same:password1",
             ]);
-
-            if (password_verify($validatedData['prev_password'], $request->user()->password)) {
-                $password = $validatedData['password1'];
-                DB::transaction(function () use ($password, $request, &$user) {
-                    $user =   User::where('id', $request->user()->id)->update(['password' => Hash::make($password)]);
-                });
-                return new PostAuthResource(200, 'Sukses! Password anda telah diganti!');
+            if ($validatedData['prev_password'] !== $validatedData['password1']) {
+                if (password_verify($validatedData['prev_password'], $request->user()->password)) {
+                    $password = $validatedData['password1'];
+                    DB::transaction(function () use ($password, $request, &$user) {
+                        $user =   User::where('id', $request->user()->id)->update(['password' => Hash::make($password)]);
+                    });
+                    return new PostAuthResource(200, 'Sukses! Password anda telah diganti!');
+                }
+            } else {
+                return new PostAuthResource(422, 'GAGAL! Password baru tidak boleh sama dengan password sebelumnya.');
             }
             return new PostAuthResource(422, 'Something wrong!');
         } catch (ValidationException $e) {
