@@ -1469,49 +1469,61 @@ class DatabaseSeeder extends Seeder
 
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Gyanakaya sangat membantu dalam memahami coding dengan cara yang menyenangkan dan interaktif.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Materi di Gyanakaya disusun dengan baik, cocok untuk pemula yang ingin belajar coding.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Saya sangat terbantu dengan tutorial yang jelas dan mudah diikuti di Gyanakaya.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Gyanakaya menyediakan platform yang sangat bermanfaat bagi mereka yang ingin belajar coding online.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Belajar coding jadi lebih mudah dengan materi yang terstruktur di Gyanakaya.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Gyanakaya memberikan pengalaman belajar yang sangat baik dan efektif.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Platform yang sangat direkomendasikan untuk siapa saja yang ingin belajar coding dari dasar.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
-            'review' => fake()->paragraph(1),
+            'review' => 'Saya sangat puas dengan Gyanakaya, konten yang disediakan sangat berkualitas dan membantu.',
+            'image' => $this->randomPhoto('reviews'),
+            'stars' => rand(1, 5),
+        ]);
+        Reviews::factory()->create([
+            'nama' => fake()->name(),
+            'review' => 'Materi yang disediakan Gyanakaya benar-benar mudah dipahami, bahkan untuk pemula.',
+            'image' => $this->randomPhoto('reviews'),
+            'stars' => rand(1, 5),
+        ]);
+        Reviews::factory()->create([
+            'nama' => fake()->name(),
+            'review' => 'Gyanakaya adalah platform yang luar biasa untuk mempelajari coding dengan cepat dan efektif.',
             'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
