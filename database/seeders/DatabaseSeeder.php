@@ -23,26 +23,37 @@ class DatabaseSeeder extends Seeder
 
     private function randomPhoto($folder)
     {
-        $images = File::files(public_path('assets/' . $folder . ''));
+        $images = File::files(public_path('assets/' . $folder));
 
-        // Pilih gambar secara acak dari folder 'assets/review'
-        $randomImage = $images[array_rand($images)];
+        // Filter gambar dengan ekstensi .jpg
+        $jpgImages = array_filter($images, function ($file) {
+            return strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'jpg';
+        });
 
-        $imageName = '' . $folder . '/' . uniqid() . '_' . basename($randomImage);
+        // Pilih gambar secara acak dari hasil filter
+        if (empty($jpgImages)) {
+            return null; // Tidak ada gambar dengan ekstensi .jpg
+        }
+
+        $randomImage = $jpgImages[array_rand($jpgImages)];
+
+        $imageName = $folder . '/' . uniqid() . '_' . basename($randomImage);
 
         // Salin gambar ke folder 'cover' di storage/public dengan nama acak
-        Storage::put($imageName, File::get($randomImage));
+        Storage::put('public/' . $imageName, File::get($randomImage));
 
         return $imageName;
     }
+
 
     private function storePhoto($folder, $searchName)
     {
         $images = File::files(public_path('assets/' . $folder));
 
-        // Filter gambar berdasarkan nama yang mengandung string pencarian
+        // Filter gambar dengan ekstensi .png dan berdasarkan nama pencarian
         $filteredImages = array_filter($images, function ($file) use ($searchName) {
-            return stripos(basename($file), $searchName) !== false;
+            return strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'png' &&
+                stripos(basename($file), $searchName) !== false;
         });
 
         if (empty($filteredImages)) {
@@ -50,7 +61,7 @@ class DatabaseSeeder extends Seeder
             return null;
         }
 
-        // Pilih gambar secara acak dari hasil pencarian
+        // Pilih gambar secara acak dari hasil filter
         $randomImage = $filteredImages[array_rand($filteredImages)];
 
         // Tentukan nama file baru yang akan disimpan
@@ -61,6 +72,7 @@ class DatabaseSeeder extends Seeder
 
         return $imageName;
     }
+
 
     public function run(): void
     {
