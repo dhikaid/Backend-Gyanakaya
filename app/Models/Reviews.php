@@ -17,4 +17,9 @@ class Reviews extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
 }

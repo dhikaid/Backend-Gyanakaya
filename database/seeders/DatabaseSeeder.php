@@ -2,22 +2,40 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Kategori;
-use App\Models\Materi;
-use App\Models\Modul;
-use App\Models\Reviews;
 use App\Models\Role;
+use App\Models\User;
+use App\Models\Modul;
+use App\Models\Materi;
+use App\Models\Reviews;
+use App\Models\Kategori;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-
 use function PHPSTORM_META\map;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
+
+    private function randomPhoto($folder)
+    {
+        $images = File::files(public_path('assets/' . $folder . ''));
+
+        // Pilih gambar secara acak dari folder 'assets/review'
+        $randomImage = $images[array_rand($images)];
+
+        $imageName = '' . $folder . '/' . uniqid() . '_' . basename($randomImage);
+
+        // Salin gambar ke folder 'cover' di storage/public dengan nama acak
+        Storage::put($imageName, File::get($randomImage));
+
+        return $imageName;
+    }
+
     public function run(): void
     {
         Role::factory()->create([
@@ -28,9 +46,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
+
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML')),
+            'cover' => $this->randomPhoto('cover'),
             'kategori' => 'HTML',
         ]);
 
@@ -50,7 +69,7 @@ class DatabaseSeeder extends Seeder
         Materi::factory()->create([
             'uuid' => fake()->uuid(),
             'materi' => "HTML Dasar #1",
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML Basic')),
+            'cover' => $this->randomPhoto('cover'),
             'id_kategori' => 1,
             'deskripsi' => 'Kelas HTML dasar ini mengajarkan dasar-dasar pembuatan halaman web, meliputi struktur tag, elemen, atribut, serta praktik terbaik untuk mengembangkan situs web yang responsif dan mudah diakses.',
             'lanjutan' => false,
@@ -60,7 +79,7 @@ class DatabaseSeeder extends Seeder
         Materi::factory()->create([
             'uuid' => fake()->uuid(),
             'materi' => "HTML Lanjutan #1",
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML')),
+            'cover' => $this->randomPhoto('cover'),
             'id_kategori' => 1,
             'deskripsi' => 'Kelas HTML lanjutan ini membahas teknik pengembangan web modern, seperti penggunaan elemen semantik, optimasi aksesibilitas, integrasi API, dan penerapan HTML5 untuk membangun web yang interaktif.',
             'lanjutan' => true,
@@ -71,7 +90,7 @@ class DatabaseSeeder extends Seeder
         Modul::factory()->create([
             'uuid' => fake()->uuid(),
             'modul' => 'Pengenalan HTML',
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML Basic')),
+            'cover' => $this->randomPhoto('cover'),
             'id_materi' => 1,
             'detail' => '<p>Berdasarkan Bab 1 dari buku "Pemrograman Web: HTML dan CSS" oleh Dr. Wahyudi, HTML (Hyper Text Markup Languange) adalah sebuah bahasa formatting yang digunakan untuk membuat sebuah halaman website. Dalam dunia pemrograman berbasis website, HTML menjadi pondasi dasar pada halaman website. Sebuah filet HTML disimpan dengan ekstensi .html (dot html). File tersebut dapat di akses menggunakan web browser.</p>
 <h4>KEGUNAAN HTML</h4>
@@ -108,7 +127,7 @@ class DatabaseSeeder extends Seeder
         Modul::factory()->create([
             'uuid' => fake()->uuid(),
             'modul' => 'HTML Dengan teks',
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML Basic')),
+            'cover' => $this->randomPhoto('cover'),
             'id_materi' => 1,
             'detail' => '<h3>Memahami HTML dengan Gaya Kekinian</h3>
 <h4>Heading: Buat Judul yang Berkelas!</h4>
@@ -255,7 +274,7 @@ class DatabaseSeeder extends Seeder
         Modul::factory()->create([
             'uuid' => fake()->uuid(),
             'modul' => 'HTML dengan Gambar dan Video',
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML Basic')),
+            'cover' => $this->randomPhoto('cover'),
             'id_materi' => 1,
             'detail' => '<h3>Menampilkan Gambar dan Video di Halaman Web dengan Gaya!</h3>
 <h4>Gambar: Biar Halamanmu Lebih Hidup</h4>
@@ -316,7 +335,7 @@ class DatabaseSeeder extends Seeder
         Modul::factory()->create([
             'uuid' => fake()->uuid(),
             'modul' => 'HTML semantik',
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'HTML Basic')),
+            'cover' => $this->randomPhoto('cover'),
             'id_materi' => 1,
             'detail' => '<h3>Struktur Semantik di HTML5: Biar Website-mu Lebih Bermakna!</h3>
 <p>Ketika kamu bikin website dengan HTML5, ada beberapa tag yang penting banget buat kamu tahu:</p>
@@ -449,46 +468,54 @@ class DatabaseSeeder extends Seeder
 <p>Dengan pakai struktur semantik, kamu bikin web yang lebih terstruktur, mudah dipahami, dan tentunya lebih <i>cool</i>! Yuk, mulai terapkan di project kamu!</p>'
         ]);
 
+
+
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
         Reviews::factory()->create([
             'nama' => fake()->name(),
             'review' => fake()->paragraph(1),
-            'image' => 'avatar/' . basename(fake()->image(storage_path('app/public/avatar'), 640, 480, 'HTML Basic')),
+            'image' => $this->randomPhoto('reviews'),
+            'stars' => rand(1, 5),
+        ]);
+        Reviews::factory()->create([
+            'nama' => fake()->name(),
+            'review' => fake()->paragraph(1),
+            'image' => $this->randomPhoto('reviews'),
             'stars' => rand(1, 5),
         ]);
     }
