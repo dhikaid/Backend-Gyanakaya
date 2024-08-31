@@ -1,92 +1,416 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-    </head>
-    <body>
-        <p>
-            Berdasarkan Bab 1 dari buku "Pemrograman Web: HTML dan CSS" oleh Dr.
-            Wahyudi, HTML (Hyper Text Markup Languange) adalah sebuah bahasa
-            formatting yang digunakan untuk membuat sebuah halaman website.
-            Dalam dunia pemrograman berbasis website, HTML menjadi pondasi dasar
-            pada halaman website. Sebuah filet HTML disimpan dengan ekstensi
-            .html (dot html). File tersebut dapat di akses menggunakan web
-            browser.
-        </p>
-        <h4>KEGUNAAN HTML</h4>
-        <p>
-            HTML berfungsi sebagai pondasi sebuah halaman website. Adapun yang
-            dapat dilakukan dengan HTML adalah sebagai berikut:
-        </p>
-        <ol>
-            <li>Membungkus element-element tertentu sesuai kebutuhan</li>
-            <li>Membuat heading atau format judul<br />&nbsp;</li>
-        </ol>
-        <p>Berikut adalah struktur dasar dari HTML :</p>
-        <pre><code class="language-plaintext">&lt;!DOCTYPE html&gt;
-     &lt;html&gt;
-     &lt;head&gt;
-       &lt;title&gt;Hello World&lt;/title&gt;
-     &lt;/head&gt;
-    &lt;body&gt;
+<h3>Memahami HTML dengan Gaya Kekinian</h3>
+<h4>Heading: Buat Judul yang Berkelas!</h4>
+<p>
+    Tag <code>&lt;h1&gt;</code> hingga <code>&lt;h6&gt;</code> dipakai buat
+    bikin judul (heading) dengan ukuran dan kepentingan yang berbeda. Penasaran
+    bedanya? Nih, lihat!
+</p>
+<ul>
+    <li>
+        <code><strong>&lt;h1&gt;</strong></code
+        ><strong>:</strong> Judul utama dengan ukuran paling besar dan paling
+        penting, font-nya 200% dari ukuran dasar.
+    </li>
+    <li>
+        <code><strong>&lt;h2&gt;</strong></code
+        ><strong>:</strong> Judul level dua, masih tebal dan besar, tapi cuma
+        150% dari ukuran dasar.
+    </li>
+    <li>
+        <code><strong>&lt;h3&gt;</strong></code
+        ><strong>:</strong> Sedikit lebih kecil, dengan ukuran 117%, cocok buat
+        subjudul.
+    </li>
+    <li>
+        <code><strong>&lt;h4&gt;</strong></code
+        ><strong>:</strong> Lebih kecil lagi, dengan ukuran sama kayak font
+        biasa (100%).
+    </li>
+    <li>
+        <code><strong>&lt;h5&gt;</strong></code
+        ><strong>:</strong> Mulai mengecil, cuma 83% dari ukuran font dasar.
+    </li>
+    <li>
+        <code><strong>&lt;h6&gt;</strong></code
+        ><strong>:</strong> Paling kecil, dengan ukuran 67% dari font dasar,
+        tapi tetap penting!
+    </li>
+</ul>
+<p>
+    Kenapa heading penting? Karena selain bikin konten lebih rapi, mesin pencari
+    juga suka! Ini membantu SEO buat ningkatin visibilitas di Google.
+</p>
+<hr />
+<h4>Paragraf: Pisahin Ide dengan Gaya</h4>
+<p>
+    Tag <code>&lt;p&gt;</code> dipakai buat bikin paragraf. Mau nulis artikel
+    panjang tapi gak mau bikin pembaca pusing? Paragraf adalah solusinya!
+</p>
+<p>&nbsp;</p>
 
-    &lt;/body&gt;
-    &lt;/html&gt;</code></pre>
-        <h4><br />DOCTYPE atau DTD</h4>
-        <p>
-            DOCTYPE yang merupakan singkatan dari Document Type Declaration dan
-            juga dikenal sebagai DTD adalah deklarasi dokumen yang digunakan
-            untuk menginfokan tipe dokumen dan versi HTML yang digunakan kepada
-            aplikasi web browser. Penulisan DOCTYPE harus berada pada awal
-            dokumen.&nbsp;
-        </p>
+<code class="!whitespace-pre hljs language-html"
+    ><span class="hljs-tag">&lt;</span><span class="hljs-tag hljs-name">p</span
+    ><span class="hljs-tag">&gt;</span>Ini adalah contoh penggunaan tag
+    paragraf.<span class="hljs-tag">&lt;/</span
+    ><span class="hljs-tag hljs-name">p</span><span class="hljs-tag">&gt;</span>
+</code>
+
+<p>
+    Paragraf bikin teks lebih mudah dibaca dan dipahami. Siapa sih yang mau baca
+    tulisan panjang tanpa jeda?
+</p>
+<hr />
+<h4>Teks Tebal: Tonjolkan Poin Penting!</h4>
+<p>Mau ada yang diperhatiin lebih? Bikin teksnya tebal!</p>
+<ul>
+    <li>
+        <code><strong>&lt;b&gt;</strong></code
+        ><strong>:</strong> Tag ini bikin teks jadi tebal tanpa embel-embel.
+    </li>
+    <li>
+        <code><strong>&lt;strong&gt;</strong></code
+        ><strong>:</strong> Mirip <code>&lt;b&gt;</code>, tapi juga menambahkan
+        penekanan (emphasis).
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
         <p>&nbsp;</p>
-        <p>
-            Sesuai pada contoh diatas, penulisan DTD atau DOCTYPE ini berada
-            diawal yaitu sebelum tag &lt;html&gt;. Pada versi HTML sebelumnya,
-            penulisan DTD ini lebih panjang dengan menyebutkan URL dan mode
-            halaman yang digunakan namun hal tersebut tidak berlaku untuk HTML5.
-            Pada HTML5 penulisan lebih disederhanakan menjadi &lt;!DOCTYPE
-            html&gt;.
-        </p>
-        <h4><br />TAG &lt;html&gt;</h4>
-        <p>
-            Tag html digunakan untuk menginformasikan pada aplikasi web browser
-            bahwa tipe dokomen tersebut adalah HTML. Tag html juga menjadi wadah
-            untuk semua elemen HTML. Jadi, semua elemen harus berada di dalam
-            tag tersebut kecuali DOCTYPE karena DOCTYPE bukan termasuk elemen
-            melainkan deklarasi dokumen.
-        </p>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>Contoh:
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">b</span
+            ><span class="hljs-tag">&gt;</span>Ini teks tebal pertama<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">b</span
+            ><span class="hljs-tag">&gt;</span> dan
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">strong</span
+            ><span class="hljs-tag">&gt;</span>ini teks tebal kedua<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">strong</span
+            ><span class="hljs-tag">&gt;</span>.<span class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Teks Miring: Sentuhan Gaya dengan Italic</h4>
+<p>Mau kasih efek dramatis atau penekanan? Miringin teksnya!</p>
+<ul>
+    <li>
+        <code><strong>&lt;i&gt;</strong></code
+        ><strong>:</strong> Bikin teks jadi miring (italic) buat gaya.
+    </li>
+    <li>
+        <code><strong>&lt;em&gt;</strong></code
+        ><strong>:</strong> Bikin teks miring sambil nunjukin penekanan
+        (emphasis).
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
         <p>&nbsp;</p>
-        <p>
-            Tag html merupakan tag yang membutuhkan penutup tag. Jadi kita harus
-            menutup tag tersebut di akhir dokumen seperti contoh diatas
-            &lt;html&gt; pada baris ke 2 dan diakhiri dengan &lt;/html&gt; pada
-            baris ke 9 (akhir dokumen).
-        </p>
-        <h4>TAG &lt;head&gt;</h4>
-        <p>
-            Tag head merupakan tag yang berisi informasi tentang halaman yang
-            tidak ditampilkan di halaman web browser. Misalnya: source css, js
-            atau lainnya yang berasal dari luar, informasi meta, title, dan
-            lainnya. Namun, khusus untuk tag &lt;title&gt; akan ditampilkan di
-            title bar pada web browser.
-        </p>
-        <h4>TAG &lt;title&gt;</h4>
-        <p>
-            Tag &lt;title&gt; adalah tag yang berada di dalam head HTML yang
-            berfungsi untuk menampilkan judul halaman web pada title bar web
-            browser.
-        </p>
-        <h4>TAG &lt;body&gt;</h4>
-        <p>
-            Tag body merupakan tag yang berisi elemen-elemen yang ditampilkan di
-            halaman web. Misalnya teks yang berupa paragraph &lt;p&gt;, heading
-            &lt;h1&gt; hingga &lt;h6&gt;, menampilkan gambar &lt;img /&gt;,
-            membuat tabel &lt;table&gt;, dan lainnya. Di dalam tag body inilah
-            konten visual dari halaman web ditempatkan.<br />&nbsp;
-        </p>
-    </body>
-</html>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>Teks
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">i</span
+            ><span class="hljs-tag">&gt;</span>italic<span class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">i</span
+            ><span class="hljs-tag">&gt;</span> bisa kita gunakan untuk
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">em</span
+            ><span class="hljs-tag">&gt;</span>menekankan<span class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">em</span
+            ><span class="hljs-tag">&gt;</span> suatu kalimat.<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Garis Bawah: Highlight Pentingnya!</h4>
+<p>Ingin menekankan sesuatu yang penting? Garis bawah aja!</p>
+<ul>
+    <li>
+        <code><strong>&lt;u&gt;</strong></code
+        ><strong>:</strong> Bikin underline (garis bawah) di teks.
+    </li>
+    <li>
+        <code><strong>&lt;ins&gt;</strong></code
+        ><strong>:</strong> Mirip <code>&lt;u&gt;</code>, tapi menunjukkan kalau
+        teks ini di-insert.
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
+        <div class="flex items-center">&nbsp;</div>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>Berikutnya adalah
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">u</span
+            ><span class="hljs-tag">&gt;</span>menambahkan garis bawah<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">u</span
+            ><span class="hljs-tag">&gt;</span> pada kalimat.<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Coret-Coret: Buat yang Udah Gak Berlaku</h4>
+<p>Kadang ada hal yang udah gak relevan, tinggal coret aja!</p>
+<ul>
+    <li>
+        <code><strong>&lt;s&gt;</strong></code
+        ><strong>:</strong> Strikethrough (teks dicoret).
+    </li>
+    <li>
+        <code><strong>&lt;del&gt;</strong></code
+        ><strong>:</strong> Delete (menunjukkan teks yang dihapus).
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
+        <div class="flex items-center">&nbsp;</div>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">h1</span
+            ><span class="hljs-tag">&gt;</span>Coret
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">s</span
+            ><span class="hljs-tag">&gt;</span>sesuatu<span class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">s</span
+            ><span class="hljs-tag">&gt;&lt;/</span
+            ><span class="hljs-tag hljs-name">h1</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>Aku suka mencoret
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">del</span
+            ><span class="hljs-tag">&gt;</span>tembok rumah<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">del</span
+            ><span class="hljs-tag">&gt;</span> di atas kertas.<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Stabilo: Tandai yang Penting Banget!</h4>
+<p>Biar gak kelewatan yang penting, stabiloin teksnya!</p>
+<ul>
+    <li>
+        <code><strong>&lt;mark&gt;</strong></code
+        ><strong>:</strong> Buat teks kayak distabilo, jadi jelas banget mana
+        yang penting.
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
+        <p>&nbsp;</p>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">h1</span
+            ><span class="hljs-tag">&gt;</span>Gunakan
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">mark</span
+            ><span class="hljs-tag">&gt;</span>stabilo<span class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">mark</span
+            ><span class="hljs-tag">&gt;</span> untuk hal penting<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">h1</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Teks Kecil: Detail yang Gak Mau Kelewat</h4>
+<p>Buat info kecil atau catatan? Gunakan teks kecil!</p>
+<ul>
+    <li>
+        <code><strong>&lt;small&gt;</strong></code
+        ><strong>:</strong> Kecilkan teks dari ukuran normal.
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
+        <p>&nbsp;</p>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>Ini adalah
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">small</span
+            ><span class="hljs-tag">&gt;</span>contoh teks kecil<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">small</span
+            ><span class="hljs-tag">&gt;</span> yang mudah terbaca.<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">p</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Daftar: Urutkan atau Acak, Semua Bisa!</h4>
+<p>Mau bikin list barang atau langkah-langkah? Pilih antara:</p>
+<ul>
+    <li>
+        <code><strong>&lt;ul&gt;</strong></code
+        ><strong>:</strong> Buat daftar tak berurutan (bullets).
+    </li>
+    <li>
+        <code><strong>&lt;ol&gt;</strong></code
+        ><strong>:</strong> Buat daftar berurutan (angka).
+    </li>
+</ul>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div
+        class="flex items-center relative text-token-text-secondary bg-token-main-surface-secondary px-4 py-2 text-xs font-sans justify-between rounded-t-md"
+    >
+        <p>&nbsp;</p>
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">ul</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>Item pertama<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>Item kedua<span class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;/</span
+            ><span class="hljs-tag hljs-name">ul</span
+            ><span class="hljs-tag">&gt;</span>
+
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">ol</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>Langkah pertama<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>Langkah kedua<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">li</span
+            ><span class="hljs-tag">&gt;</span>
+            <span class="hljs-tag">&lt;/</span
+            ><span class="hljs-tag hljs-name">ol</span
+            ><span class="hljs-tag">&gt;</span>
+        </code>
+    </div>
+</div>
+<hr />
+<h4>Link: Hubungkan Duniamu</h4>
+<p>Mau nambahin link ke halaman lain? Pakai tag <code>&lt;a&gt;</code>.</p>
+<p>&nbsp;</p>
+<div
+    class="dark bg-gray-950 contain-inline-size rounded-md border-[0.5px] border-token-border-medium"
+>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"
+            ><span class="hljs-tag">&lt;</span
+            ><span class="hljs-tag hljs-name">a</span
+            ><span class="hljs-tag"> </span
+            ><span class="hljs-tag hljs-attr">href</span
+            ><span class="hljs-tag">=</span
+            ><span class="hljs-tag hljs-string">"https://www.contoh.com"</span
+            ><span class="hljs-tag">&gt;</span>Kunjungi Situs Web<span
+                class="hljs-tag"
+                >&lt;/</span
+            ><span class="hljs-tag hljs-name">a</span
+            ><span class="hljs-tag">&gt;</span></code
+        >
+    </div>
+    <div class="overflow-y-auto p-4" dir="ltr">
+        <code class="!whitespace-pre hljs language-html"> </code>
+    </div>
+</div>
+<p>Jadi, gak cuma tulisan, tapi juga bisa nyambung ke mana aja!</p>
+<hr />
+<p>
+    Dengan memahami HTML dasar ini, kamu bisa bikin halaman web yang keren,
+    rapi, dan fungsional. Yuk, coba langsung!
+</p>
