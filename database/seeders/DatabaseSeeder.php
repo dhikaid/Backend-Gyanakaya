@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
         $imageName = $folder . '/' . uniqid() . '_' . basename($randomImage);
 
         // Salin gambar ke folder 'cover' di storage/public dengan nama acak
-        Storage::put('public/' . $imageName, File::get($randomImage));
+        Storage::put($imageName, File::get($randomImage));
 
         return $imageName;
     }
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
     {
         $images = File::files(public_path('assets/' . $folder));
 
-        // Filter gambar dengan ekstensi .png dan berdasarkan nama pencarian
+        // Filter gambar dengan nama yang sesuai dengan $searchName dan ekstensi .png
         $filteredImages = array_filter($images, function ($file) use ($searchName) {
             return strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'png' &&
                 stripos(basename($file), $searchName) !== false;
@@ -61,18 +61,17 @@ class DatabaseSeeder extends Seeder
             return null;
         }
 
-        // Pilih gambar secara acak dari hasil filter
-        $randomImage = $filteredImages[array_rand($filteredImages)];
+        // Ambil gambar pertama dari hasil filter (bukan acak)
+        $selectedImage = reset($filteredImages);
 
-        // Tentukan nama file baru yang akan disimpan
-        $imageName = $folder . '/' . uniqid() . '_' . basename($randomImage);
+        // Tentukan nama file baru yang akan disimpan di folder 'cover'
+        $imageName = $folder . '/' . uniqid() . '_' . basename($selectedImage);
 
         // Salin gambar ke folder yang ditentukan di storage/public dengan nama acak
-        Storage::put('public/' . $imageName, File::get($randomImage));
+        Storage::put($imageName, File::get($selectedImage));
 
         return $imageName;
     }
-
 
     public function run(): void
     {
