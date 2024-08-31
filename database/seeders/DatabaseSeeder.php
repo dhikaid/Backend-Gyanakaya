@@ -36,6 +36,32 @@ class DatabaseSeeder extends Seeder
         return $imageName;
     }
 
+    private function storePhoto($folder, $searchName)
+    {
+        $images = File::files(public_path('assets/' . $folder));
+
+        // Filter gambar berdasarkan nama yang mengandung string pencarian
+        $filteredImages = array_filter($images, function ($file) use ($searchName) {
+            return stripos(basename($file), $searchName) !== false;
+        });
+
+        if (empty($filteredImages)) {
+            // Jika tidak ada gambar yang sesuai dengan pencarian
+            return null;
+        }
+
+        // Pilih gambar secara acak dari hasil pencarian
+        $randomImage = $filteredImages[array_rand($filteredImages)];
+
+        // Tentukan nama file baru yang akan disimpan
+        $imageName = $folder . '/' . uniqid() . '_' . basename($randomImage);
+
+        // Salin gambar ke folder yang ditentukan di storage/public dengan nama acak
+        Storage::put('public/' . $imageName, File::get($randomImage));
+
+        return $imageName;
+    }
+
     public function run(): void
     {
         Role::factory()->create([
@@ -49,19 +75,19 @@ class DatabaseSeeder extends Seeder
 
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
-            'cover' => $this->randomPhoto('cover'),
+            'cover' => $this->storePhoto('cover', 'html'),
             'kategori' => 'HTML',
         ]);
 
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'CSS')),
+            'cover' => $this->storePhoto('cover', 'css'),
             'kategori' => 'CSS',
         ]);
 
         Kategori::factory()->create([
             'uuid' => fake()->uuid(),
-            'cover' => 'cover/' . basename(fake()->image(storage_path('app/public/cover'), 640, 480, 'Javascript')),
+            'cover' => $this->storePhoto('cover', 'js'),
             'kategori' => 'Javascript',
         ]);
 
