@@ -12,6 +12,7 @@ use App\Http\Controllers\ModulController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CertificateController;
 
 // AUTH
@@ -53,3 +54,18 @@ Route::get('/reviews', [ReviewsController::class, 'index']);
 Route::get('/user/all', function () {
     return new GetResource(200, 'Sukses mengambil data.', User::with('role')->get());
 });
+
+
+// DASHBOARD
+
+// USER
+Route::get('/dashboard/user/all', [DashboardController::class, 'getUserAll'])->middleware('auth:sanctum');
+Route::get('/dashboard/user/{user:uuid}', [DashboardController::class, 'getUserDetail'])->middleware('auth:sanctum');
+Route::put('/dashboard/user/{user:uuid}/edit', [DashboardController::class, 'editUser'])->middleware('auth:sanctum');
+
+// ROLE
+Route::get('/dashboard/role/all', [DashboardController::class, 'getRoleAll'])->middleware('auth:sanctum');
+
+// MATERI
+Route::get('/dashboard/materi/all', [DashboardController::class, 'getMateriAll'])->middleware('auth:sanctum');
+Route::get('/dashboard/materi/{materi:uuid}', [DashboardController::class, 'getMateriDetail'])->middleware('auth:sanctum');
