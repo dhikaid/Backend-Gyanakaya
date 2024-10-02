@@ -91,6 +91,27 @@ class DashboardController extends Controller
     }
 
 
+
+    // GET TAMPILAN SEMUA USER DI TRASH
+    public function getUserTrash(Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+        return new GetResource(200, 'Sukses mendapatkan data', User::onlyTrashed()->get());
+    }
+
+
+    // POST RESTORE USER DI TRASH
+    public function restoreUser(string $id, Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+        $user = User::withTrashed()->where('uuid', $id)->first();
+        if ($user) {
+            $user->restore();
+            return new GetResource(200, 'Sukses mengubah data', $user);
+        }
+        return new GetResource(404, 'User dengan UUID ini tidak ditemukan');
+    }
+
     // GET TAMPILKAN SEMUA ROLE YANG ADA
     public function getRoleAll(Request $request)
     {
