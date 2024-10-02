@@ -48,7 +48,7 @@ class DashboardController extends Controller
                 'firstname' => 'required|string|max:150',
                 'lastname' => 'required|string|max:150',
                 'email' => 'required|email:rfc,dns|string',
-                'role_id' => 'required|integer|exists:roles,id',
+                'role_id' => 'required|integer|exists:role,id',
             ];
 
             if ($request->file('image')) {
@@ -68,6 +68,24 @@ class DashboardController extends Controller
             });
 
             return new GetResource(200, 'Sukses mengubah data', $user);
+        }
+        return new GetResource(404, 'User dengan UUID ini tidak ditemukan');
+    }
+
+
+    public function deleteUser(string $id, Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+        $user = User::where('uuid', $id)->first();
+        $oldUser = $user;
+        if ($user) {
+
+            // JIKA AMAN SEMUA MAKA LAKUKAN SQL TRANSACTION
+            DB::transaction(function () use ($user) {
+                $user->delete();
+            });
+
+            return new GetResource(200, 'Sukses mengubah data', $oldUser);
         }
         return new GetResource(404, 'User dengan UUID ini tidak ditemukan');
     }

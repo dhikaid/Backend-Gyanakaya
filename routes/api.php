@@ -62,6 +62,7 @@ Route::get('/user/all', function () {
 Route::get('/dashboard/user/all', [DashboardController::class, 'getUserAll'])->middleware('auth:sanctum');
 Route::get('/dashboard/user/{user:uuid}', [DashboardController::class, 'getUserDetail'])->middleware('auth:sanctum');
 Route::put('/dashboard/user/{user:uuid}/edit', [DashboardController::class, 'editUser'])->middleware('auth:sanctum');
+Route::delete('/dashboard/user/{user:uuid}/delete', [DashboardController::class, 'deleteUser'])->middleware('auth:sanctum');
 
 // ROLE
 Route::get('/dashboard/role/all', [DashboardController::class, 'getRoleAll'])->middleware('auth:sanctum');
