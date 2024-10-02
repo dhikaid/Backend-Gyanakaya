@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Modul;
 use App\Models\Materi;
+use App\Models\Kategori;
 use App\Models\ModulUser;
 use App\Models\MateriUser;
 use Illuminate\Http\Request;
@@ -184,5 +185,41 @@ class DashboardController extends Controller
         ];
 
         return new GetResource(200, 'Sukses mengambil data', $dataMateri);
+    }
+
+
+    // GET UNTUK MENAMPILKAN LIST KATEGORI
+    public function getKategoriAll(Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+        return new GetResource(200, 'Sukses mendapatkan data', Kategori::all());
+    }
+
+
+    // BUAT CREATE MATERI
+    public function createMateri(Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+
+        $rules = [
+            'cover' => 'required|image|max:5000',
+            'materi' => 'required|string|max:255',
+            'deskripsi' => 'required|string|max:255',
+            'lanjutan' => 'required|string|max:255',
+            'id_kategori' => 'required|integer|exists:kategori,id',
+            'waktu' => 'required|integer',
+            'lanjutan' => 'required|boolean',
+        ];
+
+        $validatedData = $request->validate($rules);
+        $validatedData['cover'] = $request->file('cover')->store('cover');
+        $validatedData['uuid'] = fake()->uuid();
+
+        // JIKA AMAN SEMUA MAKA LAKUKAN SQL TRANSACTION
+        DB::transaction(function () use (&$materi, $validatedData) {
+            $materi = Materi::create($validatedData);
+        });
+
+        return new GetResource(200, 'Sukses membuat materi', $materi);
     }
 }

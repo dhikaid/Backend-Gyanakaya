@@ -69,6 +69,10 @@ Route::post('/dashboard/user/{user:uuid}/restore', [DashboardController::class, 
 // ROLE
 Route::get('/dashboard/role/all', [DashboardController::class, 'getRoleAll'])->middleware('auth:sanctum');
 
+// KATEGORI
+Route::get('/dashboard/kategori/all', [DashboardController::class, 'getKategoriAll'])->middleware('auth:sanctum');
+
 // MATERI
 Route::get('/dashboard/materi/all', [DashboardController::class, 'getMateriAll'])->middleware('auth:sanctum');
 Route::get('/dashboard/materi/{materi:uuid}', [DashboardController::class, 'getMateriDetail'])->middleware('auth:sanctum');
+Route::post('/dashboard/materi/create', [DashboardController::class, 'createMateri'])->middleware('auth:sanctum');
