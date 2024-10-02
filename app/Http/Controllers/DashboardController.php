@@ -82,7 +82,7 @@ class DashboardController extends Controller
 
             // JIKA AMAN SEMUA MAKA LAKUKAN SQL TRANSACTION
             DB::transaction(function () use ($user) {
-                $user->softDeletes();
+                $user->delete();
             });
 
             return new GetResource(200, 'Sukses mengubah data', $oldUser);
