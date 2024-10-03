@@ -26,7 +26,7 @@ class AuthController extends Controller
 
 
             if (Auth::attempt($validatedData)) {
-                $user = User::firstWhere('username', $validatedData['username']);
+                $user = User::with('role')->firstWhere('username', $validatedData['username']);
                 return (new PostAuthResource(200, 'Sukses login.', $user))->additional([
                     'token' => $user->createToken("sanctum_token_auth")->plainTextToken,
                 ]);
