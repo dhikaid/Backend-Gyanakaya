@@ -49,7 +49,7 @@ class DashboardController extends Controller
                 'firstname' => 'required|string|max:150',
                 'lastname' => 'required|string|max:150',
                 'email' => 'required|email:rfc,dns|string',
-                'role_id' => 'required|integer|exists:role,id',
+                'id_role' => 'required|integer|exists:role,id',
             ];
 
             if ($request->file('image')) {
@@ -68,7 +68,7 @@ class DashboardController extends Controller
                 $user->update($validatedData);
             });
 
-            return new GetResource(200, 'Sukses mengubah data', $user->with('role'));
+            return new GetResource(200, 'Sukses mengubah data', $user);
         }
         return new GetResource(404, 'User dengan UUID ini tidak ditemukan');
     }
