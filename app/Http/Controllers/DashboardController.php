@@ -68,7 +68,7 @@ class DashboardController extends Controller
                 $user->update($validatedData);
             });
 
-            return new GetResource(200, 'Sukses mengubah data', $user);
+            return new GetResource(200, 'Sukses mengubah data', $user->with('role'));
         }
         return new GetResource(404, 'User dengan UUID ini tidak ditemukan');
     }
