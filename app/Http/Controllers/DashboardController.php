@@ -69,7 +69,7 @@ class DashboardController extends Controller
 
             return new GetResource(200, 'Sukses mengubah data', $user);
         }
-        return new GetResource(404, 'User dengan UUID ini tidak ditemukan');
+        return new GetResource(404, 'User dengan UUID ini tidak ditemukan / Anda tidak dapat mengubah data diri anda sendiri');
     }
 
 
