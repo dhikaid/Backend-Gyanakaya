@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->role->role == 'admin';
         });
 
+
+
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
             $openApi->secure(
                 SecurityScheme::http('bearer')

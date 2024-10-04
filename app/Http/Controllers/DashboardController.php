@@ -40,9 +40,8 @@ class DashboardController extends Controller
     {
         Gate::authorize('isAdmin', $request->user());
 
-
         $user = User::where('uuid', $id)->first();
-        if ($user) {
+        if ($user && ($user->username !== $request->user()->username)) {
             // AMBIL REQUEST DATA BARU LALU UPDATE
             $rules = [
                 'username' => 'required|string|max:30',
