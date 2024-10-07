@@ -65,6 +65,7 @@ Route::get('/dashboard/user/{user:uuid}', [DashboardController::class, 'getUserD
 Route::put('/dashboard/user/{user:uuid}/edit', [DashboardController::class, 'editUser'])->middleware('auth:sanctum');
 Route::delete('/dashboard/user/{user:uuid}/delete', [DashboardController::class, 'deleteUser'])->middleware('auth:sanctum');
 Route::post('/dashboard/user/{user:uuid}/restore', [DashboardController::class, 'restoreUser'])->middleware('auth:sanctum');
+Route::post('/dasboard/user/{user:uuid}/forgot', [DashboardController::class, 'changePassword'])->middleware('auth:sanctum');
 
 // ROLE
 Route::get('/dashboard/role/all', [DashboardController::class, 'getRoleAll'])->middleware('auth:sanctum');
@@ -76,3 +77,5 @@ Route::get('/dashboard/kategori/all', [DashboardController::class, 'getKategoriA
 Route::get('/dashboard/materi/all', [DashboardController::class, 'getMateriAll'])->middleware('auth:sanctum');
 Route::get('/dashboard/materi/{materi:uuid}', [DashboardController::class, 'getMateriDetail'])->middleware('auth:sanctum');
 Route::post('/dashboard/materi/create', [DashboardController::class, 'createMateri'])->middleware('auth:sanctum');
+Route::put('/dashboard/materi/{materi:uuid}/edit', [DashboardController::class, 'editMateri'])->middleware('auth:sanctum');
+Route::delete('/dashboard/materi/{materi:uuid}/delete', [DashboardController::class, 'deleteMateri'])->middleware('auth:sanctum');

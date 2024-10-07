@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('lanjutan')->default(false);
             $table->integer('waktu');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::create('materi_user', function (Blueprint $table) {
             $table->foreignId('id_materi')->references('id')->on('materi');

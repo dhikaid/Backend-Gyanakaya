@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\GetResource;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\PostAuthResource;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
 class DashboardController extends Controller
 {
@@ -78,7 +81,7 @@ class DashboardController extends Controller
         Gate::authorize('isAdmin', $request->user());
         $user = User::where('uuid', $id)->first();
         $oldUser = $user;
-        if ($user) {
+        if ($user && ($user->username !== $request->user()->username)) {
 
             // JIKA AMAN SEMUA MAKA LAKUKAN SQL TRANSACTION
             DB::transaction(function () use ($user) {
@@ -105,7 +108,7 @@ class DashboardController extends Controller
     {
         Gate::authorize('isAdmin', $request->user());
         $user = User::withTrashed()->where('uuid', $id)->first();
-        if ($user) {
+        if ($user($user->username !== $request->user()->username)) {
             $user->restore();
             return new GetResource(200, 'Sukses mengubah data', $user);
         }
@@ -220,5 +223,65 @@ class DashboardController extends Controller
         });
 
         return new GetResource(200, 'Sukses membuat materi', $materi);
+    }
+
+    // DELETE MATERI
+    public function deleteMateri(Materi $materi, Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+
+        if ($materi) {
+            // JIKA AMAN SEMUA MAKA LAKUKAN SQL TRANSACTION
+            DB::transaction(function () use ($materi) {
+                $materi->delete();
+            });
+
+            return new GetResource(200, 'Sukses menghapus materi', $materi);
+        }
+        return new GetResource(404, 'Materi dengan UUID ini tidak ditemukan');
+    }
+
+    // EDIT MATERI
+    public function editMateri(Materi $materi, Request $request)
+    {
+        Gate::authorize('isAdmin', $request->user());
+
+        $rules = [
+            'cover' => 'image|max:5000',
+            'materi' => 'string|max:255',
+            'deskripsi' => 'string|max:255',
+            'lanjutan' => 'string|max:255',
+            'id_kategori' => 'integer|exists:kategori,id',
+            'waktu' => 'integer',
+            'lanjutan' => 'boolean',
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        if ($request->file('cover')) {
+            $validatedData['cover'] = $request->file('cover')->store('cover');
+        }
+
+        // JIKA AMAN SEMUA MAKA LAKUKAN SQL TRANSACTION
+        DB::transaction(function () use (&$materi, $validatedData) {
+            $materi->update($validatedData);
+        });
+
+        return new GetResource(200, 'Sukses mengubah materi', $materi);
+    }
+
+    // POST REQUEST CHANGE PASSWORD FROM DASHBOARD
+    public function changePassword(Request $request, User $user)
+    {
+        Gate::authorize('isAdmin', $request->user());
+
+        try {
+            Password::sendResetLink([
+                'email' => $user->email
+            ]);
+            return new PostAuthResource(200, 'Link change password telah dikirimkan ke email yang bersangkutan');
+        } catch (ValidationException $e) {
+            return new PostAuthResource(422, 'Something wrong!', $e->errors());
+        }
     }
 }
